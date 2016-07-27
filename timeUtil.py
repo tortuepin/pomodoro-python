@@ -11,4 +11,5 @@ class Timer:
     def getTime(self):
         return time.time() - self.stime
 
-
+    def getModifiedTime(self):
+        return round(self.getTime(), 3)
