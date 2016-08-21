@@ -7,7 +7,10 @@ class CursesTimer:
     
 
     def __init__(self):
-        self.sec = 3
+        self.sec = 0
+        self.func = 0
+        #funcが0ならストップウォッチ1ならタイマー
+
 
     def setSecond(self, second):
         '''
@@ -17,6 +20,24 @@ class CursesTimer:
         タイマーは受け取った秒数動作する
         '''
         self.sec = second 
+
+    def setTimer(self, second):
+        '''
+        秒数を受け取りfuncを1に
+        引数    :self
+                :second 秒数
+        '''
+
+        self.setSecond(second)
+        self.func = 1
+
+    def setStopwatch(self):
+        '''
+        funcを0にしてsecondに-1を
+        '''
+        self.func = 0
+        self.sec = -1
+
 
     def interrupt(self, w):
         '''
@@ -34,6 +55,18 @@ class CursesTimer:
         else:
             return True
 
+    def display_time(self, w, now, string):
+        '''
+        時間を表示する
+
+        引数    :self
+                :cursesのインスタンス
+                :秒数
+
+        '''
+        w.addstr(str(now) + string)
+        w.refresh()
+
     def curses_main(self):
         '''
         タイマー本体
@@ -45,11 +78,13 @@ class CursesTimer:
         curses.cbreak()
         now = 0
         w.timeout(0)
+
         #セットされた時間になるまで0.1秒ごとに経過時間を表示する
-        while now <= self.sec:
+        while now <= self.sec or self.sec == -1:
             now = t.getModifiedTime()
-            w.addstr(str(now)+"\n press 's' key: stop\n press 'p' key: pause")
-            w.refresh()
+            #w.addstr(str(now)+"\n press 's' key: stop\n press 'p' key: pause")
+            #w.refresh()
+            self.display_time(w,now, "\n press 's' key: stop\n press 'p' key: pause")
             timeUtil.time.sleep(0.1)
             w.clear()
             ch = self.interrupt(w)
@@ -59,8 +94,9 @@ class CursesTimer:
                 elif ch == ord('p'):
                     t.pause()
                     w.timeout(-1)
-                    w.addstr(str(now) + 
-                            "\n press 's' key: stop\n press else key: restart")
+                    #w.addstr(str(now) + 
+                    #        "\n press 's' key: stop\n press else key: restart")
+                    self.display_time(w, now, "\n press 's' key: stop\n press else key: restart")
                     ch = w.getch()
                     if ch == ord('s'):
                         break
@@ -75,7 +111,7 @@ class CursesTimer:
 
 def main(self):
     c = CursesTimer()
-    c.setSecond(10)
+    c.setStopwatch()
     c.curses_main()
 
 
