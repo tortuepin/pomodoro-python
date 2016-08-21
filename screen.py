@@ -18,16 +18,20 @@ class CursesTimer:
         '''
         self.sec = second 
 
-    def intercept(self, w):
+    def interrupt(self, w):
         '''
         文字列の入力を検知
+        
         引数    :self
                 :cursesのインスタンス
 
-        何か入力があった場合はTrueを返す
+        何か入力があった場合は入力された文字列を返す
 
         '''
-        if w.getch() is not -1:
+        ch = w.getch()
+        if ch is not -1:
+            return ch
+        else:
             return True
 
     def curses_main(self):
@@ -44,12 +48,25 @@ class CursesTimer:
         #セットされた時間になるまで0.1秒ごとに経過時間を表示する
         while now <= self.sec:
             now = t.getModifiedTime()
-            w.addstr(str(now))
+            w.addstr(str(now)+"\n press 's' key: stop\n press 'p' key: pause")
             w.refresh()
             timeUtil.time.sleep(0.1)
             w.clear()
-            if self.intercept(w) is True:
-                break
+            ch = self.interrupt(w)
+            if ch is not True:
+                if ch == ord('s'):
+                    break
+                elif ch == ord('p'):
+                    t.pause()
+                    w.timeout(-1)
+                    w.addstr(str(now) + 
+                            "\n press 's' key: stop\n press else key: restart")
+                    ch = w.getch()
+                    if ch == ord('s'):
+                        break
+                    w.timeout(0)
+                    t.restart()
+
         curses.nocbreak()
         w.keypad(0)
         curses.echo()
@@ -63,3 +80,4 @@ def main(self):
 
 
 curses.wrapper(main)
+
