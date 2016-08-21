@@ -64,7 +64,10 @@ class CursesTimer:
                 :秒数
 
         '''
-        w.addstr(str(now) + string)
+        if self.func == 0 and now < self.sec:
+            w.addstr(str(now) + string)
+        elif self.func == 1 and now < self.sec:
+            w.addstr(str(round((self.sec - now), 3)) + string)
         w.refresh()
 
     def curses_main(self):
@@ -80,7 +83,7 @@ class CursesTimer:
         w.timeout(0)
 
         #セットされた時間になるまで0.1秒ごとに経過時間を表示する
-        while now <= self.sec or self.sec == -1:
+        while now < self.sec or self.sec == -1:
             now = t.getModifiedTime()
             #w.addstr(str(now)+"\n press 's' key: stop\n press 'p' key: pause")
             #w.refresh()
@@ -111,7 +114,7 @@ class CursesTimer:
 
 def main(self):
     c = CursesTimer()
-    c.setStopwatch()
+    c.setTimer(5)
     c.curses_main()
 
 
