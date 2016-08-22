@@ -11,6 +11,9 @@ class Pomodoro:
         self.sRestTime = 5
         self.lRestTime = 15
         self.t = CursesTimer.CursesTimer()
+        self.minute = 3
+
+
 
     def setNofPomodoro(self, num):
         '''
@@ -41,19 +44,20 @@ class Pomodoro:
         '''
         仕事タイマー起動
         '''
-        return self.t.start_Timer(self.workTime)
+        return self.t.start_Timer(self.workTime*self.minute)
 
     def start_s_rest(self):
         '''
         おやすみタイマー起動
         '''
-        return self.t.start_Timer(self.sRestTime)
+        return self.t.start_Timer(self.sRestTime*self.minute)
     
     def start_l_rest(self):
         '''
         長いおやすみタイマー起動
         '''
-        return self.t.start_Timer(self.lRestTime)
+        return self.t.start_Timer(self.lRestTime*self.minute)
+        
 
     def pomodoro(self):
         '''
