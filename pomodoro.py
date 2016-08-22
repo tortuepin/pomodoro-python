@@ -13,9 +13,9 @@ class Pomodoro:
         self.lBreakTime = 15
         self.t = CursesTimer.CursesTimer()
         self.minute = 1
-        self.workComment = " Work!! Work!! Work!!\n"
-        self.shortBreakComment = " Break\n"
-        self.longBreakComment = " LongBreak\n"
+        self.workComment = "Working"
+        self.shortBreakComment = "Break"
+        self.longBreakComment = "LongBreak"
         self.audio = Audio.Audio()
         self.audio.setAudio_file("bell.mp3")
         

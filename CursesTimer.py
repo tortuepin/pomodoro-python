@@ -78,7 +78,6 @@ class CursesTimer:
                 :秒数
 
         '''
-        s = self.strings
         if self.func == 0:
             s += str(now) + string
             w.addstr(s)
@@ -90,13 +89,12 @@ class CursesTimer:
     
     def make_strings(self, now, string):
         p = Utils.Utils()
-        s = self.strings
-        s += " " + \
-                self.modify_time(round((self.sec - now), 1)) + \
-                "\n " + \
-                p.progress_bar(now/self.sec) + \
+        t = p.progress_bar(now/self.sec) + "  " +\
+                self.modify_time(round((self.sec - now), 1)) + "  " +\
+                self.strings + \
+                "\n" +\
                 string
-        return s
+        return t
 
 
     def modify_time(self, time):
@@ -130,7 +128,7 @@ class CursesTimer:
         #セットされた時間になるまで0.1秒ごとに経過時間を表示する
         while now < self.sec or self.sec == -1:
             now = t.getModifiedTime()
-            self.display_time(w,now, "\n press 's' key: stop\n press 'p' key: pause")
+            self.display_time(w,now, " press 's' key: stop,   press 'p' key: pause")
             timeUtil.time.sleep(0.1)
             w.clear()
             ch = self.interrupt(w)
@@ -141,7 +139,7 @@ class CursesTimer:
                 elif ch == ord('p'):
                     t.pause()
                     w.timeout(-1)
-                    self.display_time(w, now, "\n press 's' key: stop\n press else key: restart")
+                    self.display_time(w, now, " press 's' key: stop,   press else key: restart")
                     ch = w.getch()
                     if ch == ord('s'):
                         bFlag = True

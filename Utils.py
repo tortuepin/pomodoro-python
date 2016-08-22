@@ -11,12 +11,12 @@ class Utils:
         '''
         プログレスバーの文字列を返す
         '''
-        max_len = self.get_terminal_columns() - 12
+        max_len = int(self.get_terminal_columns()/3 * 2)
         bar_len = int(max_len*progress)
         return ('[' + '=' * bar_len +
                 ('>' if bar_len < max_len else '') +
                 ' ' * (max_len - bar_len) +
-                '] %.1f%%' % (progress * 100.))
+                ']')# %.1f%%' % (progress * 100.))
 
     def get_terminal_columns(self):
         '''
@@ -30,4 +30,10 @@ class Utils:
         '''
         return shutil.get_terminal_size().lines
 
+    def get_columns_space(self):
+        '''
+        ターミナルの列数分の空白を返す
+        表示を調節する時に使おう
+        '''
+        return " " * int(self.get_terminal_columns())
 #u = Utils()
