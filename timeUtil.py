@@ -16,11 +16,12 @@ class Timer:
         return time.time()
 
     def getModifiedTime(self):
-        return round(self.getTime(), 3)
+        return round(self.getTime(), 1)
 
     def pause(self):
         self.pauseTime = time.time()
 
     def restart(self):
+        
         self.invalidTime += time.time() - self.pauseTime
         

@@ -64,10 +64,10 @@ class CursesTimer:
                 :秒数
 
         '''
-        if self.func == 0 and now < self.sec:
+        if self.func == 0:
             w.addstr(str(now) + string)
         elif self.func == 1 and now < self.sec:
-            w.addstr(str(round((self.sec - now), 3)) + string)
+            w.addstr(str(round((self.sec - now), 1)) + string)
         w.refresh()
 
     def curses_main(self):
@@ -112,10 +112,25 @@ class CursesTimer:
         curses.endwin()
 
 
+    def start_Timer(self, sec):
+        self.setTimer(sec)
+        #curses_mainを起動
+        self.curses_main()
+
+    def start_Stopwatch(self):
+        self.setStopwatch()
+        self.curses_main()
+
+
+
+
+
+
 def main(self):
     c = CursesTimer()
-    c.setTimer(5)
-    c.curses_main()
+    #c.setTimer(5)
+    #c.curses_main()
+    c.start_Timer(4)
 
 
 curses.wrapper(main)
