@@ -1,4 +1,5 @@
 import CursesTimer
+import Audio
 
 class Pomodoro:
     '''
@@ -6,14 +7,18 @@ class Pomodoro:
     '''
 
     def __init__(self):
-        self.NofPomodoro = 4
-        self.workTime = 25
-        self.sRestTime = 5
-        self.lRestTime = 15
+        self.NofPomodoro = 1
+        self.workTime = 5
+        self.sBreakTime = 5
+        self.lBreakTime = 15
         self.t = CursesTimer.CursesTimer()
         self.minute = 1
         self.workComment = " Work!! Work!! Work!!\n"
-        self.restComment = " Break\n"
+        self.shortBreakComment = " Break\n"
+        self.longBreakComment = " LongBreak\n"
+        self.audio = Audio.Audio()
+        self.audio.setAudio_file("bell.mp3")
+        
 
 
 
@@ -29,17 +34,17 @@ class Pomodoro:
         '''
         self.workTime = m
 
-    def setsRestTime(self, m):
+    def setsBreakTime(self, m):
         '''
         短い休みを何分にするかを設定
         '''
-        self.sRestTime = m
+        self.sBreakTime = m
 
-    def setlRestTime(self, m):
+    def setlBreakTime(self, m):
         '''
         長い休みを何分にするかを設定
         '''
-        self.lRestTime = m
+        self.lBreakTime = m
 
 
     def start_work(self):
@@ -50,38 +55,45 @@ class Pomodoro:
         self.t.setStrings(self.workComment)
         return self.t.start_Timer(self.workTime*self.minute)
 
-    def start_s_rest(self):
+    def start_s_Break(self):
         '''
         おやすみタイマー起動
         '''
         self.t.initStrings()
-        self.t.setStrings(self.restComment)
-        return self.t.start_Timer(self.sRestTime*self.minute)
+        self.t.setStrings(self.shortBreakComment)
+        return self.t.start_Timer(self.sBreakTime*self.minute)
     
-    def start_l_rest(self):
+    def start_l_Break(self):
         '''
         長いおやすみタイマー起動
         '''
-        return self.t.start_Timer(self.lRestTime*self.minute)
+        self.t.initStrings()
+        self.t.setStrings(self.longBreakComment)
+        return self.t.start_Timer(self.lBreakTime*self.minute)
         
 
     def pomodoro(self):
         '''
         pomodoro本体
         '''
-        n = 0
         bFlag = False
         while 1: 
+            n = 0
             while n < self.NofPomodoro:
                 if self.start_work() == False:
                     bFlag = True
                     break
-                if self.start_s_rest() == False:
+                self.audio.subthread_play()
+                if self.start_s_Break() == False:
                     bFlag = True
                     break
+                self.audio.subthread_play()
+                n += 1
             if bFlag == True:
                 break
-            self.start_l_rest()
+            if self.start_l_Break() == False:
+                break
+            self.audio.subthread_play()
 
 
 p = Pomodoro()
