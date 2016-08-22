@@ -1,5 +1,6 @@
 import curses
 import timeUtil
+import Utils
 class CursesTimer:
     '''
     cursesを使ったタイマーを扱うクラス
@@ -82,9 +83,21 @@ class CursesTimer:
             s += str(now) + string
             w.addstr(s)
         elif self.func == 1 and now < self.sec:
-            s += " " + self.modify_time(round((self.sec - now), 1)) + string
+            #s += " " + self.modify_time(round((self.sec - now), 1)) + string
+            s = self.make_strings(now, string)
             w.addstr(s)
         w.refresh()
+    
+    def make_strings(self, now, string):
+        p = Utils.Utils()
+        s = self.strings
+        s += " " + \
+                self.modify_time(round((self.sec - now), 1)) + \
+                "\n " + \
+                p.progress_bar(now/self.sec) + \
+                string
+        return s
+
 
     def modify_time(self, time):
         '''
@@ -152,4 +165,9 @@ class CursesTimer:
         self.setStopwatch()
         return self.curses_main()
 
+
+
+
+
+        
 
