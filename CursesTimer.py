@@ -10,7 +10,20 @@ class CursesTimer:
         self.sec = 0
         self.func = 0
         #funcが0ならストップウォッチ1ならタイマー
+        self.strings = ""
 
+    def setStrings(self, s):
+        '''
+        秒数の前に表示する文字を追加する
+        事前にinitStrings()をcallしておくこと
+        '''
+        self.strings += s
+
+    def initStrings(self):
+        '''
+        self.stringsを初期化する
+        '''
+        self.strings = ""
 
     def setSecond(self, second):
         '''
@@ -64,10 +77,13 @@ class CursesTimer:
                 :秒数
 
         '''
+        s = self.strings
         if self.func == 0:
-            w.addstr(str(now) + string)
+            s += str(now) + string
+            w.addstr(s)
         elif self.func == 1 and now < self.sec:
-            w.addstr(" " + self.modify_time(round((self.sec - now), 1)) + string)
+            s += " " + self.modify_time(round((self.sec - now), 1)) + string
+            w.addstr(s)
         w.refresh()
 
     def modify_time(self, time):
