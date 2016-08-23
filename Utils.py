@@ -36,4 +36,23 @@ class Utils:
         表示を調節する時に使おう
         '''
         return " " * int(self.get_terminal_columns())
+    
+    def count_bar(self, count):
+        '''
+        回数分の棒を返す
+        '''
+        s = " "
+        for i in range(0,count):
+            s += "|"
+            if (i+1) % 5 == 0:
+                s += "  "
+        return s
+    def count_str(self, count):
+        '''
+        回数表示のためのstrを返す
+        '''
+        s = "\n PomodoroCount = " + str(count) + "\n " + self.count_bar(count)
+        return s
+
+
 #u = Utils()

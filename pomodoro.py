@@ -1,5 +1,6 @@
 import CursesTimer
 import Audio
+import Utils
 
 class Pomodoro:
     '''
@@ -8,9 +9,9 @@ class Pomodoro:
 
     def __init__(self):
         self.NofPomodoro = 1
-        self.workTime = 5
-        self.sBreakTime = 5
-        self.lBreakTime = 15
+        self.workTime = 1
+        self.sBreakTime = 1
+        self.lBreakTime = 1
         self.t = CursesTimer.CursesTimer()
         self.minute = 1
         self.workComment = "Working"
@@ -18,6 +19,9 @@ class Pomodoro:
         self.longBreakComment = "LongBreak"
         self.audio = Audio.Audio()
         self.audio.setAudio_file("bell.mp3")
+        self.pomodoroCount = 0
+
+        self.u = Utils.Utils()
         
 
 
@@ -53,6 +57,7 @@ class Pomodoro:
         '''
         self.t.initStrings()
         self.t.setStrings(self.workComment)
+        self.t.setStrings(self.u.count_str(self.pomodoroCount))
         return self.t.start_Timer(self.workTime*self.minute)
 
     def start_s_Break(self):
@@ -61,6 +66,7 @@ class Pomodoro:
         '''
         self.t.initStrings()
         self.t.setStrings(self.shortBreakComment)
+        self.t.setStrings(self.u.count_str(self.pomodoroCount))
         return self.t.start_Timer(self.sBreakTime*self.minute)
     
     def start_l_Break(self):
@@ -69,6 +75,7 @@ class Pomodoro:
         '''
         self.t.initStrings()
         self.t.setStrings(self.longBreakComment)
+        self.t.setStrings(self.u.count_str(self.pomodoroCount))
         return self.t.start_Timer(self.lBreakTime*self.minute)
         
 
@@ -84,6 +91,7 @@ class Pomodoro:
                     bFlag = True
                     break
                 self.audio.subthread_play()
+                self.pomodoroCount += 1
                 if self.start_s_Break() == False:
                     bFlag = True
                     break
