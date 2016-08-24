@@ -1,6 +1,7 @@
 import CursesTimer
 import Audio
 import Utils
+import database
 
 class Pomodoro:
     '''
@@ -8,6 +9,7 @@ class Pomodoro:
     '''
 
     def __init__(self):
+        self.db = database.database()
         self.NofPomodoro = 1
         self.workTime = 1
         self.sBreakTime = 1
@@ -19,7 +21,7 @@ class Pomodoro:
         self.longBreakComment = "LongBreak"
         self.audio = Audio.Audio()
         self.audio.setAudio_file("bell.mp3")
-        self.pomodoroCount = 0
+        self.pomodoroCount = self.db.getTodaysPomodoro()
 
         self.u = Utils.Utils()
         
@@ -92,6 +94,7 @@ class Pomodoro:
                     break
                 self.audio.subthread_play()
                 self.pomodoroCount += 1
+                self.db.insertPomodoro()
                 if self.start_s_Break() == False:
                     bFlag = True
                     break

@@ -1,0 +1,28 @@
+import sqlite3
+
+class database:
+    '''
+    データベース関連
+    '''
+    
+    def __init__(self):
+        self.DBDirectory = "./dbs/"
+        self.pomodoroDBName = "pomodoro.sqlite3" #ポモドーロした回数とか
+        self.pomodoroTableName = "pomodoro"
+        self.todoID = 0
+
+    def insertPomodoro(self):
+        '''
+        データベースに１ポモドーロ登録する
+        '''
+        connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
+
+        query = "insert into " + self.pomodoroTableName + " values" + todaydetail.strftime("(%Y,%m,%d,%h,%m,") + self.todoID + ")"
+        print(query)
+        connector.execute(query)
+
+        connector.commit()
+        connector.close()
+
+db = database()
+db.insertPomodoro()
