@@ -12,6 +12,7 @@ class database:
         self.pomodoroTableName = "pomodoro"
         self.todoID = 0
 
+            
     def insertPomodoro(self):
         '''
         データベースに１ポモドーロ登録する
@@ -43,6 +44,27 @@ class database:
         connector.close()
 
         return result[0][0]
+
+    def isTable(self, tablename):
+        '''
+        テーブルの存在確認
+        '''
+        connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
+
+        query = ("select * from sqlite_master where type = 'table' and name = '%s'")
+        cur = connector.execute(query % tablename)
+
+        if cur.fetchone() == None:
+            print(tablename + "を作って")
+            connector.close()
+            return False
+            
+        connector.close()
+
+        return True
+
+
+        
 
         
 

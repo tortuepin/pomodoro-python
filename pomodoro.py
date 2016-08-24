@@ -10,12 +10,12 @@ class Pomodoro:
 
     def __init__(self):
         self.db = database.database()
-        self.NofPomodoro = 1
-        self.workTime = 1
-        self.sBreakTime = 1
-        self.lBreakTime = 1
+        self.NofPomodoro = 4 #休憩まで何回ポモドーロするか
+        self.workTime = 25 #1ポモドーロ何分か
+        self.sBreakTime = 5 #短い休みは何分
+        self.lBreakTime = 15 #長い休みは何分
         self.t = CursesTimer.CursesTimer()
-        self.minute = 1
+        self.minute = 60
         self.workComment = "Working"
         self.shortBreakComment = "Break"
         self.longBreakComment = "LongBreak"
