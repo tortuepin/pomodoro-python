@@ -107,5 +107,3 @@ class Pomodoro:
             self.audio.subthread_play()
 
 
-p = Pomodoro()
-p.pomodoro()
