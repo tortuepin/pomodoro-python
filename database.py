@@ -31,12 +31,37 @@ class database:
         '''
         今日何回ポモドーロしたか返す
         '''
+        today = datetime.date.today()
+        return self.getdaysPomodoro(today.year, today.month, today.day)
+#        connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
+#
+#        query = "select count(*) from " + self.pomodoroTableName +\
+#                " where year = " + str(datetime.date.today().year) +\
+#                " and month = " + str(datetime.date.today().month) +\
+#                " and day = " + str(datetime.date.today().day)
+#
+#        cursor = connector.cursor()
+#        cursor.execute(query)
+#        result = cursor.fetchall()
+#        connector.close()
+#
+#        return result[0][0]
+
+    def getdaysPomodoro(self, year, month, day):
+        '''
+        指定した日に何回ポモドーロしたか返す
+
+        引数
+        year
+        month
+        day
+        '''
         connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
 
         query = "select count(*) from " + self.pomodoroTableName +\
-                " where year = " + str(datetime.date.today().year) +\
-                " and month = " + str(datetime.date.today().month) +\
-                " and day = " + str(datetime.date.today().day)
+                " where year = " + str(year) +\
+                " and month = " + str(month) +\
+                " and day = " + str(day)
 
         cursor = connector.cursor()
         cursor.execute(query)
@@ -67,4 +92,6 @@ class database:
         
 
         
-
+db = database()
+print(db.getdaysPomodoro(2016, 8, 25))
+print(db.getTodaysPomodoro())
