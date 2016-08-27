@@ -2,6 +2,7 @@ import CursesTimer
 import Audio
 import Utils
 import database
+import datetime
 
 class Pomodoro:
     '''
@@ -9,7 +10,7 @@ class Pomodoro:
     '''
 
     def __init__(self):
-        self.db = database.database()
+        self.db = database.database() 
         self.NofPomodoro = 4 #休憩まで何回ポモドーロするか
         self.workTime = 25 #1ポモドーロ何分か
         self.sBreakTime = 5 #短い休みは何分
@@ -21,12 +22,34 @@ class Pomodoro:
         self.longBreakComment = "LongBreak"
         self.audio = Audio.Audio()
         self.audio.setAudio_file("bell.mp3")
-        self.pomodoroCount = self.db.getTodaysPomodoro()
+        self.pomodoroCount = self.db.getTodaysPomodoro() #今日何回ポモドーロしたか
+
+        self.dayend = 0 #1日の終わりを何時にするか(0~23)
+        self.nextEndDatetime = datetime.datetime.today().replace(hour = self.dayend, minute = 0, second = 0, microsecond = 0) #次の1日の終わり
 
         self.u = Utils.Utils()
         
 
 
+
+
+    def endOfDay(self):
+        '''
+        1日が終わった時に呼び出される関数
+
+        countをリセットし、次の1日が終わる時間を作る
+        '''
+        self.initPomodoroCount();
+        today = datetime.datetime.today()
+        #もし今のhourがdayendより前ならenddatetimeは今日
+        if today.hour < self.dayend:
+            self.nextEndDatetime = self.nextEndDatetime.replace(day = today.day)
+        #もし今のhourがdayendより後ならenddatatimeは明日
+        if today.hour >= self.dayend:
+            self.nextEndDatetime = self.nextEndDatetime.replace(day = today.today().day + 1)
+
+    def initPomodoroCount(self):
+        self.pomodoroCount = 0
 
     def setNofPomodoro(self, num):
         '''
@@ -95,6 +118,10 @@ class Pomodoro:
                 self.audio.subthread_play()
                 self.pomodoroCount += 1
                 self.db.insertPomodoro()
+                #もし1日が終わったら
+                if datetime.datetime.today() > self.nextEndDatetime:
+                    endOfDay()
+
                 if self.start_s_Break() == False:
                     bFlag = True
                     break
@@ -105,5 +132,4 @@ class Pomodoro:
             if self.start_l_Break() == False:
                 break
             self.audio.subthread_play()
-
 
