@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+import dbQuery
 
 class database:
     '''
@@ -11,6 +12,31 @@ class database:
         self.pomodoroDBName = "pomodoro.sqlite3" #ポモドーロした回数とか
         self.pomodoroTableName = "pomodoro"
         self.todoID = 0
+
+        #もしテーブルがなかったら作る
+        if not self.isTable(self.pomodoroTableName):
+            name = "create_" + self.pomodoroTableName
+            q = dbQuery.dbQuery()
+            query = q.getQuery(name)
+            if query is not None:
+                self.exeQuery(query)
+
+
+
+
+            
+
+    def exeQuery(self, query):
+        '''
+        指定されたqueryを実行する
+        '''
+
+        connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
+
+        connector.execute(self.query)
+
+        connector.commit()
+        connector.close()
 
             
     def insertPomodoro(self):
@@ -95,3 +121,4 @@ class database:
 db = database()
 print(db.getdaysPomodoro(2016, 8, 25))
 print(db.getTodaysPomodoro())
+print(db.isTable("pomodoro"))

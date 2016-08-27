@@ -120,7 +120,7 @@ class Pomodoro:
                 self.db.insertPomodoro()
                 #もし1日が終わったら
                 if datetime.datetime.today() > self.nextEndDatetime:
-                    endOfDay()
+                    self.endOfDay()
 
                 if self.start_s_Break() == False:
                     bFlag = True
