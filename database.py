@@ -1,6 +1,7 @@
 import sqlite3
 import datetime
 import dbQuery
+import os.path
 
 class database:
     '''
@@ -12,6 +13,11 @@ class database:
         self.pomodoroDBName = "pomodoro.sqlite3" #ポモドーロした回数とか
         self.pomodoroTableName = "pomodoro"
         self.todoID = 0
+
+        #もしディレクトリdbsがなかったら作る
+        if not os.path.isdir(self.DBDirectory):
+            os.mkdir(self.DBDirectory)
+            
 
         #もしテーブルがなかったら作る
         if not self.isTable(self.pomodoroTableName):
@@ -33,7 +39,7 @@ class database:
 
         connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
 
-        connector.execute(self.query)
+        connector.execute(query)
 
         connector.commit()
         connector.close()
@@ -106,7 +112,6 @@ class database:
         cur = connector.execute(query % tablename)
 
         if cur.fetchone() == None:
-            print(tablename + "を作って")
             connector.close()
             return False
             
@@ -118,7 +123,3 @@ class database:
         
 
         
-db = database()
-print(db.getdaysPomodoro(2016, 8, 25))
-print(db.getTodaysPomodoro())
-print(db.isTable("pomodoro"))
