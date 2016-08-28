@@ -65,19 +65,6 @@ class database:
         '''
         today = datetime.date.today()
         return self.getdaysPomodoro(today.year, today.month, today.day)
-#        connector = sqlite3.connect(self.DBDirectory+self.pomodoroDBName)
-#
-#        query = "select count(*) from " + self.pomodoroTableName +\
-#                " where year = " + str(datetime.date.today().year) +\
-#                " and month = " + str(datetime.date.today().month) +\
-#                " and day = " + str(datetime.date.today().day)
-#
-#        cursor = connector.cursor()
-#        cursor.execute(query)
-#        result = cursor.fetchall()
-#        connector.close()
-#
-#        return result[0][0]
 
     def getdaysPomodoro(self, year, month, day):
         '''

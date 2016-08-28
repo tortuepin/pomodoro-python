@@ -12,11 +12,11 @@ class Pomodoro:
     def __init__(self):
         self.db = database.database() 
         self.NofPomodoro = 4 #休憩まで何回ポモドーロするか
-        self.workTime = 25 #1ポモドーロ何分か
+        self.workTime = 2 #1ポモドーロ何分か
         self.sBreakTime = 5 #短い休みは何分
         self.lBreakTime = 15 #長い休みは何分
         self.t = CursesTimer.CursesTimer()
-        self.minute = 60
+        self.minute = 1
         self.workComment = "Working"
         self.shortBreakComment = "Break"
         self.longBreakComment = "LongBreak"
@@ -25,7 +25,16 @@ class Pomodoro:
         self.pomodoroCount = self.db.getTodaysPomodoro() #今日何回ポモドーロしたか
 
         self.dayend = 0 #1日の終わりを何時にするか(0~23)
+        today = datetime.datetime.today()
         self.nextEndDatetime = datetime.datetime.today().replace(hour = self.dayend, minute = 0, second = 0, microsecond = 0) #次の1日の終わり
+        #もし今のhourがdayendより前ならenddatetimeは今日
+        if today.hour < self.dayend:
+            self.nextEndDatetime = self.nextEndDatetime.replace(day = today.day)
+        #もし今のhourがdayendより後ならenddatatimeは明日
+        if today.hour >= self.dayend:
+            self.nextEndDatetime = self.nextEndDatetime.replace(day = today.today().day + 1)
+        
+
 
         self.u = Utils.Utils()
         
