@@ -142,3 +142,39 @@ class Pomodoro:
                 break
             self.audio.subthread_play()
 
+
+    def show_pomodoro(self):
+        '''
+        pomodoroした回数を表示する
+        '''
+        
+        #今週の配列を初期化
+        thisWeek = [0 for i in range(7)]
+        #先週の配列を初期化
+        lastWeek = [0 for i in range(7)]
+        #今日の曜日を取得
+        day = datetime.date.today()
+        dayofweek = day.weekday()
+        #今週分の回数を取得
+        while dayofweek >= 0:
+            thisWeek[dayofweek] = self.db.getdaysPomodoro(day.year, day.month, day.day)
+            dayofweek -= 1
+            day = day - datetime.timedelta(days=1)
+        for i in range(6, -1, -1):
+            lastWeek[i] = self.db.getdaysPomodoro(day.year, day.month, day.day)
+            day = day - datetime.timedelta(days=1)
+        print("今週")
+        print("月 火 水 木 金 土 日")
+        for i in thisWeek:
+            print('{0:02d}'.format(i), end=" ")
+        print()
+        print("先週")
+        print("月 火 水 木 金 土 日")
+        for i in lastWeek:
+            print('{0:02d}'.format(i), end=" ")
+        print()
+
+
+
+        
+        
