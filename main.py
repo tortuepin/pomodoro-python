@@ -10,9 +10,15 @@ class main(cmd.Cmd):
         p = pomodoro.Pomodoro()
         p.pomodoro()
 
+    def do_p(self, arg):
+        return self.onecmd("pomodoro")
+
     def do_quit(self, arg):
         print("bye")
         return True
+
+    def do_q(self, arg):
+        return self.onecmd("quit")
 
     def do_exit(self, arg):
         self.do_quit()
