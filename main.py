@@ -3,7 +3,7 @@ import cmd
 
 class main(cmd.Cmd):
     '''エントリーポイント'''
-    intro = "hello\n"
+    intro = "hello\npomodoro: start pomodoro\nquit: end"
     prompt = "> "
 
     def do_pomodoro(self, arg):
