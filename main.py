@@ -3,7 +3,14 @@ import cmd
 
 class main(cmd.Cmd):
     '''エントリーポイント'''
-    intro = "hello\npomodoro: start pomodoro\nquit: end"
+
+    msg = "Let's OSHIGOTO!!"
+
+
+    intro = "\n   " + msg + "\n\n"+\
+            "pomodoro:  start pomodoro\n"+\
+            "quit:      end\n"+\
+            "show:      show how many times have you done pomodoro"
     prompt = "> "
 
     def do_pomodoro(self, arg):
