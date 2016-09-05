@@ -145,6 +145,7 @@ class CursesTimer:
                         bFlag = True
                         break
                     w.timeout(0)
+                    w.clear()
                     t.restart()
 
         curses.nocbreak()
