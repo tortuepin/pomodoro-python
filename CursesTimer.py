@@ -12,6 +12,8 @@ class CursesTimer:
         self.func = 0
         #funcが0ならストップウォッチ1ならタイマー
         self.strings = ""
+        self.termLines = Utils.Utils.get_terminal_lines(self)
+        self.termColumns = Utils.Utils.get_terminal_columns(self)
 
     def setStrings(self, s):
         '''
@@ -78,6 +80,8 @@ class CursesTimer:
                 :秒数
 
         '''
+        if self.termLines > 10:
+            w.move(int(self.termLines/2)-2, 0)
         if self.func == 0:
             s += str(now) + string
             w.addstr(s)
