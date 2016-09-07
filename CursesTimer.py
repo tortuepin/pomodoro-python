@@ -15,6 +15,8 @@ class CursesTimer:
         self.termLines = Utils.Utils.get_terminal_lines(self)
         self.termColumns = Utils.Utils.get_terminal_columns(self)
 
+        self.needCentering = True
+
     def setStrings(self, s):
         '''
         秒数の前に表示する文字を追加する
@@ -71,6 +73,10 @@ class CursesTimer:
         else:
             return True
 
+    def centering(self, w):
+        if self.needCentering is True and self.termLines > 10:
+            w.move(int(self.termLines/2)-10, 0)
+
     def display_time(self, w, now, string):
         '''
         時間を表示する
@@ -80,8 +86,7 @@ class CursesTimer:
                 :秒数
 
         '''
-        if self.termLines > 10:
-            w.move(int(self.termLines/2)-2, 0)
+        self.centering(w)
         if self.func == 0:
             s += str(now) + string
             w.addstr(s)
